@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using vega.Models;
+using vega.Core;
+using vega.Core.Models;
 
 namespace vega.Persistence
 {
@@ -26,13 +27,10 @@ namespace vega.Persistence
                     .ThenInclude(m => m.Make)
                 .SingleOrDefaultAsync(v => v.Id == id);
         }
-
-
         public void Add(Vehicle vehicle)
         {
             context.Vehicles.Add(vehicle);
         }
-
         public void Remove(Vehicle vehicle)
         {
             context.Remove(vehicle);
