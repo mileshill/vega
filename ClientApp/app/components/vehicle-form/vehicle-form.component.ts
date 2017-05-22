@@ -51,6 +51,7 @@ export class VehicleFormComponent implements OnInit {
       this.vehicleService.getFeatures()
     ];
 
+    // If Update/Delete existing 
     if(this.vehicle.id)
       sources.push(this.vehicleService.getVehicle(this.vehicle.id));
 
@@ -59,8 +60,10 @@ export class VehicleFormComponent implements OnInit {
       this.makes = data[0];
       this.features = data[1];
 
-      if(this.vehicle.id)
+      if(this.vehicle.id){
         this.setVehicle(data[2]);
+        this.populateModels();
+      }
     }, err => {
         if(err.status == 404)
           this.router.navigate(['/home']);
@@ -77,9 +80,13 @@ export class VehicleFormComponent implements OnInit {
     this.vehicle.features = _.pluck(v.features, 'id');
   }
 
-  onMakeChange(){
+  private populateModels(){
     let selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
     this.models = selectedMake ? selectedMake.models : [];
+  }
+
+  onMakeChange(){
+    this.populateModels();
     delete this.vehicle.modelId;
   }
   
@@ -93,9 +100,25 @@ export class VehicleFormComponent implements OnInit {
   }
 
   submit(){
-    this.vehicleService.create(this.vehicle)
+    // Update
+    if(this.vehicle.id){
+      this.vehicleService.update(this.vehicle)
+        .subscribe(x => {
+          this.toastyService.success({
+            title: 'Success',
+            msg: 'The vehicle was sucessfully updated',
+            theme: 'bootstrap',
+            showClose: true,
+            timeout: 5000
+          })
+        });
+    }
+    // Create
+    else{
+      this.vehicleService.create(this.vehicle)
       .subscribe( 
         x => console.log(x))
+    }
   }
 
 } 
