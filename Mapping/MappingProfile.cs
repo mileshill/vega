@@ -53,6 +53,8 @@ namespace vega.Mapping
 
                 });
 
+            CreateMap<VehicleQueryResource, VehicleQuery>();
+
 
 
         }
