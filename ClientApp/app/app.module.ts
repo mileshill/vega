@@ -16,6 +16,7 @@ import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
 import { CounterComponent } from './components/counter/counter.component';
 import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.component';
 import { AppErrorHandler } from "./app.error-handler";
+import { VehicleListComponent } from './components/vehicle-list/vehicle-list.component';
 
 Raven
   .config('https://84d759ec50e644e3ab681f1a7831d839@sentry.io/170092')
@@ -30,17 +31,19 @@ Raven
         CounterComponent,
         FetchDataComponent,
         HomeComponent,
-        VehicleFormComponent
+        VehicleFormComponent,
+        VehicleListComponent
     ],
     imports: [
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
         FormsModule,
         ToastyModule.forRoot(),
         RouterModule.forRoot([
-            { path: '', redirectTo: 'home', pathMatch: 'full' },
+            { path: '', redirectTo: 'vehicles', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
             { path: 'vehicles/new', component : VehicleFormComponent},
             { path: 'vehicles/:id', component: VehicleFormComponent},
+            { path: 'vehicles', component: VehicleListComponent},
             { path: 'counter', component: CounterComponent },
             { path: 'fetch-data', component: FetchDataComponent },
             { path: '**', redirectTo: 'home' }
