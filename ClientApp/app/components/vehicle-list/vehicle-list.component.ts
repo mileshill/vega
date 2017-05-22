@@ -10,11 +10,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./vehicle-list.component.css']
 })
 export class VehicleListComponent implements OnInit {
-  vehicles: Vehicle[];
+  private readonly PAGE = 1;
+  private readonly PAGE_SIZE = 10;
+
+  queryResult: any = {};
   makes: KeyValuePair[];
   models: KeyValuePair[];
   query: any = {
-    pageSize:3
+    page: this.PAGE,
+    pageSize:this.PAGE_SIZE
   };
   columns = [
     // {title: HTML Label, key: sent to server, isSortable: boolean=false}
@@ -37,18 +41,28 @@ export class VehicleListComponent implements OnInit {
 
   populateVehicles(){
     this.vehicleService.getVehicles(this.query)
-      .subscribe(vehicles => {
-        this.vehicles = vehicles;
+      .subscribe(result => {
+        this.queryResult = result;
       })
   }
 
+
   onFilterChange(){
     this.populateVehicles();
+    this.resetQueryDefaults();
   }
 
   resetFilter(){
-    this.query = {};
+    this.resetQueryDefaults();
     this.populateVehicles();
+  }
+
+
+  resetQueryDefaults(){
+    this.query = {
+      page: this.PAGE,
+      pageSize: this.PAGE_SIZE
+    };
   }
 
   sortBy(columnName){
