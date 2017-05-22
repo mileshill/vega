@@ -13,7 +13,17 @@ export class VehicleListComponent implements OnInit {
   vehicles: Vehicle[];
   makes: KeyValuePair[];
   models: KeyValuePair[];
-  query: any = {};
+  query: any = {
+    pageSize:3
+  };
+  columns = [
+    // {title: HTML Label, key: sent to server, isSortable: boolean=false}
+    {title: 'Id'},
+    {title: 'Make', key: 'make', isSortable: true},
+    {title: 'Model', key: 'model', isSortable: true},
+    {title: 'Contact Name', key: 'contactName', isSortable: true},
+    {}
+  ];
 
   constructor(private vehicleService: VehicleService) { }
 
@@ -49,6 +59,10 @@ export class VehicleListComponent implements OnInit {
       this.query.isSortAscending = true;
     }
     this.populateVehicles();
+  }
 
+  onPageChange(page){
+    this.query.page = page;
+    this.populateVehicles();
   }
 }
