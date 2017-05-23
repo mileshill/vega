@@ -1,3 +1,5 @@
+import { BrowserXhr } from '@angular/http';
+import { ProgressService, BrowserXhrWithProgress } from './services/progress.service';
 import { PhotoService } from './services/photo.service';
 import * as Raven from 'raven-js';
 
@@ -57,8 +59,10 @@ Raven
     ],
     providers: [
         {provide: ErrorHandler, useClass: AppErrorHandler},
+        {provide: BrowserXhr, useClass: BrowserXhrWithProgress},
         VehicleService,
-        PhotoService
+        PhotoService,
+        ProgressService
     ]
 })
 export class AppModule {
