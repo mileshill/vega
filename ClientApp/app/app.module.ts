@@ -1,3 +1,4 @@
+import { PhotoService } from './services/photo.service';
 import * as Raven from 'raven-js';
 
 import { ErrorHandler } from '@angular/core';
@@ -56,7 +57,8 @@ Raven
     ],
     providers: [
         {provide: ErrorHandler, useClass: AppErrorHandler},
-        VehicleService
+        VehicleService,
+        PhotoService
     ]
 })
 export class AppModule {
