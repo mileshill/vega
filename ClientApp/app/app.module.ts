@@ -47,14 +47,11 @@ Raven
         ToastyModule.forRoot(),
         RouterModule.forRoot([
             { path: '', redirectTo: 'vehicles', pathMatch: 'full' },
-            { path: 'home', component: HomeComponent },
             { path: 'vehicles/new', component : VehicleFormComponent},
             { path: 'vehicles/edit/:id', component: VehicleFormComponent},
             { path: 'vehicles/:id', component: ViewVehicleComponent},
             { path: 'vehicles', component: VehicleListComponent},
-            { path: 'counter', component: CounterComponent },
-            { path: 'fetch-data', component: FetchDataComponent },
-            { path: '**', redirectTo: 'home' }
+            { path: '**', redirectTo: 'vehicles' }
         ])
     ],
     providers: [

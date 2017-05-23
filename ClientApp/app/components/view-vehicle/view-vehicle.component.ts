@@ -23,7 +23,7 @@ export class ViewVehicleComponent implements OnInit {
     private zone: NgZone,
     private route: ActivatedRoute,
     private router: Router,
-    private toasty: ToastyService,
+    private toastyService: ToastyService,
     private vehicleService: VehicleService,
     private photoService: PhotoService,
     private progressService: ProgressService
@@ -62,7 +62,6 @@ export class ViewVehicleComponent implements OnInit {
   }
 
   uploadPhoto(){
-    let nativeElement: HTMLInputElement = this.fileInput.nativeElement;
 
     this.progressService.startTracking()
       .subscribe(progress => {
@@ -74,9 +73,22 @@ export class ViewVehicleComponent implements OnInit {
       null,
       () => {this.progress = null});
 
-    this.photoService.upload(this.vehicleId, nativeElement.files[0])
+    
+    let nativeElement: HTMLInputElement = this.fileInput.nativeElement;
+    let file = nativeElement.files[0];
+    nativeElement.value = '';
+    this.photoService.upload(this.vehicleId, file)
       .subscribe(photo => { 
         this.photos.push(photo);
+      },
+      err => {
+        this.toastyService.error({
+            title: 'Error',
+            msg: err.text(),
+            theme: 'bootstrap',
+            showClose: true,
+            timeout: 5000
+          });
       });
 
   }
